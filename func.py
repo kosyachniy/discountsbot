@@ -25,13 +25,13 @@ def read():
 def info(user):
 	x=vk.method('users.get', {'user_ids': user, 'fields': 'verified, first_name, last_name, sex, bdate, photo_id, country, city, lang, phone, timezone, home_town, screen_name'})[0]
 
-	bd=x['bdate']
-	if bd.count('.')==2:
-		bd=time.strftime('%Y%m%d', time.strptime(bd, '%d.%m.%Y'))
-	else:
-		bd=time.strftime('%m%d', time.strptime(bd, '%d.%m'))
+	bd=x.get('bdate').count('.')
+	if bd==2:
+		bd=time.strftime('%Y%m%d', time.strptime(x['bdate'], '%d.%m.%Y'))
+	elif bd==1:
+		bd=time.strftime('%m%d', time.strptime(x['bdate'], '%d.%m'))
 
-	return (x['verified'], x['first_name'], x['last_name'], x['sex'], int(bd), x['photo_id'], str(x['country']['id'])+'/'+str(x['city']['id']), 0, 0, 3, 0, user, x['screen_name'])
+	return (x.get('verified'), x.get('first_name'), x.get('last_name'), x.get('sex'), int(bd), x.get('photo_id'), str(x.get('country')['id'])+'/'+str(x.get('city')['id']), 0, 0, 3, 0, user, x.get('screen_name'))
 
 #SQLite
 db=sqlite3.connect('main.db')
