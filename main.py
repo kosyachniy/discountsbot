@@ -1,6 +1,6 @@
 from multiprocessing import Process, Manager
 import new
-#import control
+import always
 
 Process(target=new).start()
-#Process(target=control).start()
+Process(target=always).start()

@@ -1,4 +1,4 @@
-from func import *
+from control import *
 
 char='йцукенгшщзхъёфывапролджэячсмитьбюqwertyuiopasdfghjklzxcvbnm1234567890'
 
@@ -101,24 +101,29 @@ def text(id, cont):
 			db.execute("UPDATE users SET genre=(?) WHERE vkid=(?)", (','.join([str(i) for i in genres]), id))
 		send(id, 'Установлены жанры!')
 		return 3
+	return 0
 
 while True:
 	with db:
 		for i in read():
-			t=True
+			t=0
 			for j in db.execute("SELECT * FROM users WHERE vkid=(?)", (i[0],)):
 				indicator=text(*i)
 				
-				if not j[14] and indicator!=2:
+				t=1
+				if not j[15] and indicator!=1:
+					send(i[0], 'По каким дням недели тебе можно писать?')
+				elif not j[14] and indicator!=2:
 					send(i[0], 'Какие платформы тебя интересуют?\nДоступные: iOS / Android / Windows / MacOS')
 				elif not j[16] and indicator!=3:
 					send(i[0], 'Любимые жанры?')
+				else:
+					t=2
 
-				t=False
-				break
-
-			if t:
+			if t==0:
 				db.execute("INSERT INTO users (verified, name, surname, sex, birthday, photo, address, language, phone, timezone, home, vkid, vknick, platform, days, genre) VALUES ('%d', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%s', '', '', '')" % info(i[0]))
 				send(i[0], 'Привет! Я тот, кто будет тебе говорить о самых интересных скидках в Steam, PlayMarket и AppStore!\nПо каким дням недели тебе можно писать?')
+			elif t==2:
+				control(i[0])
 #То что ты захочешь и когда ты захочешь
 			time.sleep(1)
