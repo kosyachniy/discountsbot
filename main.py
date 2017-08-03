@@ -25,51 +25,51 @@ def text(id, cont):
 	days=[]
 	for i in text:
 		if i in mon:
-			days+=1
+			days+=[1]
 		elif i in tue:
-			days+=2
+			days+=[2]
 		elif i in wed:
-			days+=3
+			days+=[3]
 		elif i in thu:
-			days+=4
+			days+=[4]
 		elif i in fri:
-			days+=5
+			days+=[5]
 		elif i in sat:
-			days+=6
+			days+=[6]
 		elif i in sun:
-			days+=7
+			days+=[7]
 	if len(days):
 		with db:
 			days.sort()
 			db.execute("UPDATE users SET days=(?) WHERE vkid=(?)", (','.join([str(i) for i in days]), id))
-		return 0
+		return 1
 
 	platform=[]
 	for i in text:
 		if i in win:
-			platform+=1
+			platform+=[1]
 		elif i in mac:
-			platform+=2
+			platform+=[2]
 		elif i in ndr:
-			platform+=3
+			platform+=[3]
 		elif i in ios:
-			platform+=4
+			platform+=[4]
 	if len(platform):
 		with db:
 			platform.sort()
-			db.execute("UPDATE users SET days=(?) WHERE vkid=(?)", (','.join([str(i) for i in platform]), id))
-		return 0
+			db.execute("UPDATE users SET platform=(?) WHERE vkid=(?)", (','.join([str(i) for i in platform]), id))
+		return 2
 
 while True:
 	with db:
 		for i in read():
 			t=True
 			for j in db.execute("SELECT * FROM users WHERE vkid=(?)", (i[0],)):
-				text(*i)
+				indicator=text(*i)
 				
-				if not j[14]:
+				if not j[14] and indicator!=1:
 					send(i[0], 'Какие платформы тебя интересуют?\nДоступные: iOS / Android / Windows / MacOS')
-				elif not j[16]:
+				elif not j[16] and indicator!=2:
 					send(i[0], 'Любимые жанры?')
 
 				t=False
