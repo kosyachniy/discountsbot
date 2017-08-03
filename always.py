@@ -1,6 +1,8 @@
 from control import *
+from discounts import update
 
 while True:
+	update()
 	tim=time.gmtime()
 	ti=tim.tm_hour*100+tim.tm_min
 	for i in dial():
