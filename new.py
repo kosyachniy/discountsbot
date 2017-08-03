@@ -2,15 +2,15 @@ from control import *
 
 char='йцукенгшщзхъёфывапролджэячсмитьбюqwertyuiopasdfghjklzxcvbnm1234567890'
 
-mon={'понедельник', 'пн', 'пон', 'понед', 'monday', 'mon', 'mond'}
-tue={'вторник', 'вт', 'вторн', 'tuesday', 'tue'}
-wed={'среда', 'ср', 'сред', 'wednesday', 'wednes', 'wed'}
-thu={'четверг', 'чт', 'четв', 'thursday', 'thu'}
-fri={'пятница', 'пт', 'пятн', 'friday', 'fri'}
-sat={'суббота', 'суб', 'суббот', 'субота', 'субот', 'saturday', 'sat'}
-sun={'воскресенье', 'воск', 'воскрес', 'sunday', 'sun'}
+mon={'понедельник', 'понедельникам', 'понедельники', 'пн', 'пон', 'понед', 'monday', 'mon', 'mond'}
+tue={'вторник', 'вторникам', 'вторники', 'вт', 'вторн', 'tuesday', 'tue'}
+wed={'среда', 'средам', 'среды', 'ср', 'сред', 'wednesday', 'wednes', 'wed'}
+thu={'четверг', 'четвергам', 'четверги', 'чт', 'четв', 'thursday', 'thu'}
+fri={'пятница', 'пятницам', 'пятницы', 'пт', 'пятн', 'friday', 'fri'}
+sat={'суббота', 'субботам', 'субботы', 'суботам', 'суб', 'суббот', 'субота', 'субот', 'saturday', 'sat'}
+sun={'воскресенье', 'воскресеньям', 'воскресенья', 'воск', 'вск', 'вс', 'воскрес', 'sunday', 'sun'}
 
-win={'windows', 'win', 'виндоус', 'винда', 'pc', 'пк'}
+win={'windows', 'win', 'виндоус', 'виндовс', 'винда', 'pc', 'пк'}
 mac={'macos', 'mac', 'мак', 'макос', 'макбук', 'macbook', '', '', ''}
 ndr={'android', 'андроид', 'андрюша', 'самсунг', 'ксьоми', 'шяоми', 'мейзу', 'meizu', 'xiaomi', 'samsung'}
 ios={'ios', 'iphone', 'ipad', 'ipod', 'apple', 'айос', 'айфон', 'эпл', 'айпад', 'айпод'}
@@ -105,25 +105,30 @@ def text(id, cont):
 
 while True:
 	with db:
-		for i in read():
-			t=0
-			for j in db.execute("SELECT * FROM users WHERE vkid=(?)", (i[0],)):
-				indicator=text(*i)
-				
-				t=1
-				if not j[15] and indicator!=1:
-					send(i[0], 'По каким дням недели тебе можно писать?')
-				elif not j[14] and indicator!=2:
-					send(i[0], 'Какие платформы тебя интересуют?\nДоступные: iOS / Android / Windows / MacOS')
-				elif not j[16] and indicator!=3:
-					send(i[0], 'Любимые жанры?')
-				else:
-					t=2
+		try:
+			for i in read():
+				t=0
+				for j in db.execute("SELECT * FROM users WHERE vkid=(?)", (i[0],)):
+					indicator=text(*i)
+					
+					t=1
+					if not j[15] and indicator!=1:
+						send(i[0], 'По каким дням недели тебе можно писать?')
+					elif not j[14] and indicator!=2:
+						send(i[0], 'Какие платформы тебя интересуют?\nДоступные: iOS / Android / Windows / MacOS')
+					elif not j[16] and indicator!=3:
+						send(i[0], 'Любимые жанры?')
+					else:
+						t=2
 
-			if t==0:
-				db.execute("INSERT INTO users (verified, name, surname, sex, birthday, photo, address, language, phone, timezone, home, vkid, vknick, platform, days, genre) VALUES ('%d', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%s', '', '', '')" % info(i[0]))
-				send(i[0], 'Привет! Я тот, кто будет тебе говорить о самых интересных скидках в Steam, PlayMarket и AppStore!\nПо каким дням недели тебе можно писать?')
-			elif t==2:
-				control(i[0])
-#То что ты захочешь и когда ты захочешь
-			time.sleep(1)
+				if t==0:
+					db.execute("INSERT INTO users (verified, name, surname, sex, birthday, photo, address, language, phone, timezone, home, vkid, vknick, platform, days, genre) VALUES ('%d', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%s', '', '', '')" % info(i[0]))
+					send(i[0], 'Привет! Я тот, кто будет тебе говорить о самых интересных скидках в Steam, PlayMarket и AppStore!\nПо каким дням недели тебе можно писать?')
+				elif t==2:
+					control(i[0])
+	#То что ты захочешь и когда ты захочешь
+				time.sleep(1) #
+		except vk_api.exceptions.ApiHttpError:
+			vk.auth()
+			print('Error!')
+	time.sleep(1)
