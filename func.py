@@ -1,15 +1,6 @@
 import requests, time, json, sqlite3, vk_api
 from bs4 import BeautifulSoup
 from urllib.request import unquote
-from parse import parse
-
-def text(x):
-	y=[]
-	for i in parse(x):
-		for j in i.word:
-			if j['speech']!='sign':
-				y.append(j['infinitive'])
-	return y
 
 with open('set.txt', 'r') as file:
 	s=json.loads(file.read())
