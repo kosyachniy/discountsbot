@@ -1,0 +1,4 @@
+from func import *
+
+with db:
+	db.execute("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, verified int, name text, surname text, sex int, birthday text, photo text, address text, language text, phone int, timezone int, home text, vkid int, vknick text, platform text, frequency int, genre text)")
