@@ -115,7 +115,7 @@ while True:
 					if not j[15] and indicator!=1:
 						send(i[0], 'По каким дням недели тебе можно писать?')
 					elif not j[14] and indicator!=2:
-						send(i[0], 'Какие платформы тебя интересуют?\nДоступные: iOS / Android / Windows / MacOS')
+						send(i[0], 'Какие платформы тебя интересуют?\nДоступные: Windows / MacOS') #iOS / Android / 
 					elif not j[16] and indicator!=3:
 						send(i[0], 'Любимые жанры?')
 					else:
