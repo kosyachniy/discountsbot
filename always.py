@@ -1,6 +1,7 @@
 from control import *
 from discounts import update
 
+#Отправка раз в день рекомендаций
 while True:
 	update()
 	tim=time.gmtime()

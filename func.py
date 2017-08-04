@@ -40,10 +40,3 @@ def info(user):
 
 #SQLite
 db=sqlite3.connect('main.db')
-
-'''
-#Steam
-from steam import WebAPI, SteamClient
-
-api=WebAPI(key=steam)
-'''

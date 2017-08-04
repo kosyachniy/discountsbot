@@ -1,6 +1,7 @@
 from func import *
 import sys
 
+#Отправляем рекомендации пользователю
 def control(id):
 	with db:
 		for i in db.execute("SELECT * FROM users WHERE vkid=(?)", (id,)):
