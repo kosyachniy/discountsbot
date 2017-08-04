@@ -2,16 +2,12 @@ import requests, time, json, sqlite3, vk_api
 from bs4 import BeautifulSoup
 from urllib.request import unquote
 
-with open('set.txt', 'r') as file:
-	s=json.loads(file.read())
-	vk=s['vk']
-	steam=s['steam']
-
 names=lambda name: unquote(name[name.rfind('/')+1:])
 
 #VK
-vk=vk_api.VkApi(token=vk)
-vk.auth()
+with open('set.txt', 'r') as file:
+	vk=vk_api.VkApi(token=json.loads(file.read())['vk'])
+	vk.auth()
 
 send=lambda user, cont, img=[]: vk.method('messages.send', {'user_id':user, 'message':cont, 'attachment':','.join(img)})
 

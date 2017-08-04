@@ -13,7 +13,7 @@ def num(text):
 	return float(cont)
 
 def update():
-	with db: db.execute("DELETE FROM discounts")
+	with db: db.execute("UPDATE discounts SET active=0")
 
 #Парсим страницу скидок
 	result=soup.find_all('a', class_='search_result_row')
@@ -25,6 +25,14 @@ def update():
 		steam=num(price[3])
 		win=1 if i.find('span', class_='win') else 0
 		mac=1 if i.find('span', class_='mac') else 0
+
+		t=False
+		with db:
+			#Оптимизировать
+			for j in db.execute("SELECT * FROM discounts WHERE id=(?)", (id,)):
+				db.execute("UPDATE discounts SET active=1 WHERE id=(?)", (id,))
+				t=True
+		if t: continue
 
 #Считываем описание
 		#Сделать русский язык
@@ -52,7 +60,7 @@ def update():
 
 #Вносим в БД
 		print(id, name, original, steam, win, mac)
-		with db: db.execute("INSERT INTO discounts VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?)", (id, name, original, steam, photo[0]['id'], desc, win, mac))
+		with db: db.execute("INSERT INTO discounts VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, 1)", (id, name, original, steam, photo[0]['id'], desc, win, mac))
 
 if __name__=='__main__':
 	update()
