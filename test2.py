@@ -1,21 +1,16 @@
-from func mport *
+from func import *
+import requests
 
-values = {}
+values={'group_id':151313066, 'album_id':247231511}
 
-        if user_id:
-            values['user_id'] = user_id
-        elif group_id:
-            values['group_id'] = group_id
+response=vk.method('photos.getMessagesUploadServer', values)
+#response['photo']=open('1.jpg','rb')
+#vk.http.post(response['upload_url'], files=open('1.jpg','rb'))
+#response['server']=840123
+#response['hash']='1fab5c4e6399f7b0722770ee4e4a58d8'
+print(response)
 
-        response = self.vk.method('photos.getWallUploadServer', values)
-        url = response['upload_url']
+r=requests.get(vk.method('photos.getMessagesUploadServer')).text
+print(r)
 
-        photos_files = open_files(photos)
-        response = self.vk.http.post(url, files=photos_files)
-        close_files(photos_files)
-
-        values.update(response.json())
-
-        response = self.vk.method('photos.saveWallPhoto', values)
-
-        return response
+print(vk.method('photos.saveMessagesPhoto', {'photo':open('1.jpg','rb')}))
