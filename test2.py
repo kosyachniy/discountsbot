@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-import vk_api, json
+import vk_api
 
 
 def main():
-    with open('set.txt', 'r') as file:
-        vk_session = vk_api.VkApi(token=json.loads(file.read())['vk'])
+    """ Пример загрузки фото """
+
+    login, password = 'python@vk.com', 'mypassword'
+    vk_session = vk_api.VkApi(login, password)
 
     try:
         vk_session.auth()
@@ -18,7 +20,7 @@ def main():
     upload = vk_api.VkUpload(vk_session)
 
     photo = upload.photo(  # Подставьте свои данные
-        '/root/3301.jpg',
+        '1.jpg',
         album_id=200851098,
         group_id=74030368
     )
