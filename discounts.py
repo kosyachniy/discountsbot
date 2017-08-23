@@ -22,7 +22,7 @@ def update():
 #Парсим страницу скидок
 	result=soup.find_all('a', class_='search_result_row')
 	for i in result:
-		id=int(i.get('data-ds-appid'))
+		id=int(i.get('data-ds-appid').split(',')[0])
 		name=i.find('span', class_='title').text
 		price=i.find('div', class_='search_price').contents
 		original=num(price[1].text)
@@ -63,8 +63,23 @@ def update():
 			print('photo{}_{}'.format(photo[0]['owner_id'], photo[0]['id']))
 
 #Вносим в БД
-		print(id, name, original, steam, win, mac)
-		with db: db.execute("INSERT INTO discounts VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, 1, ?, ?, ?)", (id, name, original, steam, photo[0]['id'], desc, win, mac, GetPriceFromZakaZaka(name), GetPriceFromSP(name), GetPriceFromSB(name)))
+		try:
+			zaka = GetPriceFromZakaZaka(name)
+		except:
+			zaka = 0
+
+		try:
+			sp = GetPriceFromSP(name)
+		except:
+			sp = 0
+
+		try:
+			sb = GetPriceFromSB(name)
+		except:
+			sb = 0
+
+		print(id, name, original, steam, zaka, sp, sb, win, mac)
+		with db: db.execute("INSERT INTO discounts VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, 1, ?, ?, ?)", (id, name, original, steam, photo[0]['id'], desc, win, mac, zaka, sp, sb))
 
 if __name__=='__main__':
 	update()

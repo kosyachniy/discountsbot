@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-
 url='https://zaka-zaka.com/game/'
 def ChangeNameToZakaZaka(name):
         name = name.replace(' ', '-')

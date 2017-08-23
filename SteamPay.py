@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 url='http://steampay.com/game/'
-def ChangeNameSB(name):
+def ChangeNameSP(name):
     name = name.replace(' ','-')
     name = name.replace(':','-')
     name = name.replace('.','-')
@@ -11,7 +11,7 @@ def ChangeNameSB(name):
     return(name)
 
 def GetPriceFromSP(name):
-    name = ChangeNameSB(name)
+    name = ChangeNameSP(name)
     page = requests.get(url+name).text
     soup = BeautifulSoup(page, 'lxml')
     price = soup.find('span',class_="price").next_element
@@ -21,4 +21,3 @@ def GetPriceFromSP(name):
     return(price)
 
 GetPriceFromSP('Get even')
-

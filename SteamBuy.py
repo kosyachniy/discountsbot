@@ -20,4 +20,4 @@ def GetPriceFromSB(name):
 #    print(price)
     return(price)
 
-GetPriceFromSB('Football manager 2017')
+#GetPriceFromSB('Football manager 2017')
