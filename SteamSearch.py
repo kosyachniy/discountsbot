@@ -22,5 +22,6 @@ def ResultOfSearch(name):
     div = div[:-5]
     #print(href)
     #print(div)
-    return div,href
-ResultOfSearch('alan')
+    return div, href
+
+#ResultOfSearch('alan')
