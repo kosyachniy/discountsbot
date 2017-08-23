@@ -1,5 +1,9 @@
 from func import *
 
+from ZakaZaka import GetPriceFromZakaZaka
+from SteamPay import GetPriceFromSP
+from SteamBuy import GetPriceFromSB
+
 page=requests.get('http://store.steampowered.com/search/?specials=1').text
 soup=BeautifulSoup(page, 'lxml') #, 'html5lib')
 
@@ -60,7 +64,7 @@ def update():
 
 #Вносим в БД
 		print(id, name, original, steam, win, mac)
-		with db: db.execute("INSERT INTO discounts VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, 1)", (id, name, original, steam, photo[0]['id'], desc, win, mac))
+		with db: db.execute("INSERT INTO discounts VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, 1, ?, ?, ?)", (id, name, original, steam, photo[0]['id'], desc, win, mac, GetPriceFromZakaZaka(name), GetPriceFromSP(name), GetPriceFromSB(name)))
 
 if __name__=='__main__':
 	update()
