@@ -2,7 +2,7 @@ from func import *
 
 while True:
 	tim = time.gmtime().tm_hour + 3
-	if 23 <= tim <= 24:
+	if 9 <= tim <= 10:
 		num = 0
 		for j in db.execute("SELECT * FROM discounts WHERE active=1"):
 			num += 1

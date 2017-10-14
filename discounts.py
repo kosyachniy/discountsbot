@@ -67,7 +67,7 @@ def update():
 			zaka = 0
 
 		try:
-			sp = GetPriceFromSP(name)
+			sp = SearchingSteamPay(name)[0]
 		except:
 			sp = 0
 

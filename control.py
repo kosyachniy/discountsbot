@@ -1,9 +1,9 @@
 from func import *
 import sys
 
-from ZakaZaka import ChangeNameToZakaZaka
-#from SteamPay import ChangeNameSP
-from SteamBuy import ChangeNameSB
+from parse.ZakaZaka import ChangeNameToZakaZaka
+from parse.SteamPaySearch2 import SearchingSteamPay
+from parse.SteamBuy import ChangeNameSB
 
 #Отправляем рекомендации пользователю
 def control(id):
@@ -15,10 +15,11 @@ def control(id):
 					text=j[1]+'\nОбычная цена: '+str(j[2])+'₽\n--------------------\nЦена со скидкой в Steam: '+str(j[3])+'₽ (-'+str(round(100*(1-j[3]/j[2]), 2))+'%)\nhttp://store.steampowered.com/app/'+str(j[0])
 					if j[11]:
 						text+='\n--------------------\nЦена в ZakaZaka: '+str(j[11])+'₽ (-'+str(round(100*(1-j[11]/j[2]), 2))+'%)\nhttps://zaka-zaka.com/game/'+ChangeNameToZakaZaka(j[1])
-					'''
-					if j[12]:
-						text+='\n--------------------\nЦена в StemPay: '+str(j[12])+'₽ (-'+str(round(100*(1-j[12]/j[2]), 2))+'%)\nhttp://steampay.com/game/'+ChangeNameSP(j[1])
-					'''
+					try:
+						if j[12]:
+							text+='\n--------------------\nЦена в StemPay: '+str(j[12])+'₽ (-'+str(round(100*(1-j[12]/j[2]), 2))+'%)\n' + SearchingSteamPay(j[1])[1]
+					except:
+						pass
 					if j[13]:
 						text+='\n--------------------\nЦена в SteamBuy: '+str(j[13])+'₽ (-'+str(round(100*(1-j[13]/j[2]), 2))+'%)\nhttp://steambuy.com/steam/'+ChangeNameSB(j[1])
 
