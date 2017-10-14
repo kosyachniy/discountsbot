@@ -6,8 +6,13 @@ names=lambda name: unquote(name[name.rfind('/')+1:])
 
 #VK
 with open('set.txt', 'r') as file:
-	vk=vk_api.VkApi(token=json.loads(file.read())['vk'])
+	s=json.loads(file.read())
+
+	vk=vk_api.VkApi(token=s['vk'])
 	vk.auth()
+
+	vks=vk_api.VkApi(s['login'], s['pass'])
+	vks.auth()
 
 send=lambda user, cont, img=[]: vk.method('messages.send', {'user_id':user, 'message':cont, 'attachment':','.join(img)})
 

@@ -1,8 +1,8 @@
 from func import *
 
-from ZakaZaka import GetPriceFromZakaZaka
-from SteamPaySearch import SearchingSteamPay
-from SteamBuy import GetPriceFromSB
+from parse.ZakaZaka import GetPriceFromZakaZaka
+from parse.SteamPaySearch2 import SearchingSteamPay
+from parse.SteamBuy import GetPriceFromSB
 
 page=requests.get('http://store.steampowered.com/search/?specials=1').text
 soup=BeautifulSoup(page, 'lxml') #, 'html5lib')
@@ -26,6 +26,8 @@ def update():
 		name=i.find('span', class_='title').text
 		price=i.find('div', class_='search_price').contents
 		original=num(price[1].text)
+		if not any([j in price[3] for j in '1234567890']):
+			continue
 		steam=num(price[3])
 		win=1 if i.find('span', class_='win') else 0
 		mac=1 if i.find('span', class_='mac') else 0
@@ -54,13 +56,9 @@ def update():
 		out.close()
 
 #Загружаем изображение в ВК
-		with open('set.txt', 'r') as file:
-			s=json.loads(file.read())
-			vks=vk_api.VkApi(s['login'], s['pass'])
-			vks.auth()
-			upload=vk_api.VkUpload(vks)
-			photo=upload.photo('main.jpg', album_id=247231511, group_id=151313066)
-			print('photo{}_{}'.format(photo[0]['owner_id'], photo[0]['id']))
+		upload=vk_api.VkUpload(vks)
+		photo=upload.photo('main.jpg', album_id=247231511, group_id=151313066)
+		print('photo{}_{}'.format(photo[0]['owner_id'], photo[0]['id']))
 
 #Вносим в БД
 		try:
