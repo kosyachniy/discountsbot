@@ -1,7 +1,7 @@
 from func import *
 
 from ZakaZaka import GetPriceFromZakaZaka
-from SteamPay import GetPriceFromSP
+from SteamPaySearch import SearchingSteamPay
 from SteamBuy import GetPriceFromSB
 
 page=requests.get('http://store.steampowered.com/search/?specials=1').text
